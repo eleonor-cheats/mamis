@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TE AMO MÃE</title>
+    <link rel="icon" href="./SarahICO.png" sizes="32x32" type="image/png">
+</head>
+<style>
+    * { 
+    font-family: 'Sans-Serif', Arial, Helvetica, sans-serif;
+}
+
+html { 
+    background-image: url(./background.jpg);
+    background-size: cover;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.panel {
+    background: linear-gradient(lightpink, #bd6ba5);
+    color: #ffffff;
+    padding: 12rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 5px solid; /* Border width */
+    animation: borderColorChange 3s linear infinite; /* Animation for border color */
+}
+
+@keyframes borderColorChange {
+    10% {
+        border-color: #00ff00;
+    }
+
+    50% {
+        border-color: #ff0000;
+    }
+
+    100% {
+        border-color: rgb(45, 169, 211);
+    }
+}
+
+
+.panel h1 {
+    margin: 0 0 20px;
+    font-size: 24px;
+}
+.panel button {
+    background-color: #ffffff;
+    color: #191919;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.panel button:hover {
+    background-color: #e0e0e0;
+}
+#sim {
+    background-color: #16a34a;
+    color: white;
+    font-weight: bold;
+}
+#nao {
+    background-color: #ff0000;
+    color: white;
+    font-weight: bold;
+}
+#sim:hover, #nao:hover {
+    transform: scale(1.1);
+}
+</style>
+<body>
+    <main>
+        <div class="panel">
+            <h1 id="typewriter"></h1>
+            <button id="sim">Sim</button>
+            <button id="nao">Não</button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+    alert("written by kayky");
+    const text = "Você me ama?";
+    let index = 0;
+    const speed = 150; // Velocidade da digitação em milissegundos
+    const typewriterElement = document.getElementById('typewriter');
+
+    function typeWriter() {
+        if (index < text.length) {
+            typewriterElement.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeWriter, speed);
+        } else {
+            setTimeout(eraseText, speed + 1000); // Aguarda 1 segundo antes de apagar
+        }
+    }
+
+    function eraseText() {
+        const currentText = typewriterElement.innerHTML;
+        if (currentText.length > 0) {
+            typewriterElement.innerHTML = currentText.substring(0, currentText.length - 1);
+            setTimeout(eraseText, speed / 2);
+        } else {
+            index = 0; // Reinicia o índice para começar a escrever novamente
+            setTimeout(typeWriter, speed); // Após apagar, começa a escrever novamente
+        }
+    }
+
+    typeWriter();
+
+    // Declaração de originalPos fora das funções de evento
+    const noButton = document.getElementById('nao');
+    let originalPos = {};
+
+    // Evento de clique do botão "Não"
+    noButton.addEventListener('click', () => {
+        const panel = document.querySelector('.panel');
+        const panelRect = panel.getBoundingClientRect();
+        const buttonWidth = noButton.offsetWidth;
+        const buttonHeight = noButton.offsetHeight;
+
+        // Calculate the maximum possible X and Y coordinates for the button
+        const maxX = panelRect.width - buttonWidth;
+        const maxY = panelRect.height - buttonHeight;
+
+        // Generate random X and Y coordinates within the limits
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        // Set the button's position relative to the panel
+        noButton.style.position = 'absolute';
+        noButton.style.left = `${randomX}px`;
+        noButton.style.top = `${randomY}px`;
+
+        // Armazena a posição original do botão "Não"
+        originalPos.left = `${randomX}px`;
+        originalPos.top = `${randomY}px`;
+    });
+
+    // Evento de clique do botão "Sim"
+    const yesButton = document.getElementById('sim');
+    yesButton.addEventListener('click', () => {
+        // Restaura a posição original do botão "Não"
+        noButton.style.position = 'static';
+        noButton.style.left = originalPos.left;
+        noButton.style.top = originalPos.top;
+
+        alert("Resposta Correta! O Kayky também ama você. ^-^");
+
+        console.log("Se você conseguiu achar esse easter egg, saiba que eu te amo de verdade viu? você é minha vida, o meu mundo, o meu universo mamis <3");
+    });
+});
+    </script>
+</body>
+</html>
